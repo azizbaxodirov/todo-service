@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+* evans	
 
 # idea configuration
 .idea
