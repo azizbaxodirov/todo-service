@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS todos(
-    id SERIAL Primary Key,
+    id uuid Primary Key,
     assignee VARCHAR(50),
     title VARCHAR(50),
     summary VARCHAR(50),
