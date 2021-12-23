@@ -20,7 +20,7 @@ func NewTodoRepo(db *sqlx.DB) *todoRepo {
 }
 
 func (r *todoRepo) Create(todo pb.Todo) (pb.Todo, error) {
-	var id int64
+	var id string
 	err := r.db.QueryRow(`
         INSERT INTO todos(assignee, title, summary, deadline, status)
         VALUES ($1, $2, $3, $4, $5) returning id`, todo.Assignee, todo.Title, todo.Summary, todo.Deadline, todo.Status).Scan(&id)
@@ -39,7 +39,7 @@ func (r *todoRepo) Create(todo pb.Todo) (pb.Todo, error) {
 	return NewTodo, nil
 }
 
-func (r *todoRepo) Get(id int64) (pb.Todo, error) {
+func (r *todoRepo) Get(id string) (pb.Todo, error) {
 	var todo pb.Todo
 	err := r.db.QueryRow(`
         SELECT id, assignee, title, summary, deadline, status FROM todos WHERE id = $1`, id).Scan(&todo.Id, &todo.Assignee, &todo.Title, &todo.Summary, &todo.Deadline, &todo.Status)
@@ -150,7 +150,7 @@ func (r *todoRepo) Update(todo pb.Todo) (pb.Todo, error) {
 	return NewTodo, nil
 }
 
-func (r *todoRepo) Delete(id int64) error {
+func (r *todoRepo) Delete(id string) error {
 	result, err := r.db.Exec(`DELETE FROM todos WHERE id = $1`, id)
 	if err != nil {
 		return err
